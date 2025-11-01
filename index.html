@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이강진 ❤ 임예리 결혼합니다</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nanum Myeongjo', serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd9ed 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.2);
+        }
+
+        /* 헤더 섹션 */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(to bottom, #fff0f6, white);
+        }
+
+        .header h1 {
+            font-size: 14px;
+            color: #ff69b4;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .names {
+            font-size: 32px;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .names .divider {
+            color: #ff69b4;
+            margin: 0 15px;
+        }
+
+        .date-info {
+            margin-top: 30px;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .date-info .date {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        /* 인사말 섹션 */
+        .greeting {
+            padding: 40px 30px;
+            text-align: center;
+            background: white;
+        }
+
+        .greeting p {
+            line-height: 1.8;
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* 사진 갤러리 섹션 */
+        .gallery-section {
+            padding: 40px 0;
+            background: #fff8fc;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 20px;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .gallery-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-out;
+            height: 100%;
+        }
+
+        .gallery-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+        }
+
+        .gallery-item img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .gallery-placeholder {
+            color: #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #ff69b4;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* 장소 정보 */
+        .location {
+            padding: 40px 30px;
+            text-align: center;
+            background: white;
+        }
+
+        .location h2 {
+            font-size: 20px;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .location-info {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .location-info strong {
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* 음악 컨트롤 */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff69b4, #ff85c0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control.playing {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(255, 105, 180, 0.7);
+            }
+        }
+
+        .music-icon {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+
+        .music-icon::before,
+        .music-icon::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+
+        .music-icon::before {
+            width: 3px;
+            height: 20px;
+            left: 5px;
+            bottom: 0;
+            border-radius: 2px;
+        }
+
+        .music-icon::after {
+            width: 3px;
+            height: 25px;
+            right: 5px;
+            bottom: 0;
+            border-radius: 2px;
+        }
+
+        .music-icon span {
+            position: absolute;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .music-icon span:first-child {
+            left: 2px;
+        }
+
+        .music-icon span:last-child {
+            right: 2px;
+        }
+
+        .paused .music-icon::before {
+            height: 15px;
+        }
+
+        .paused .music-icon::after {
+            height: 15px;
+        }
+
+        /* 푸터 */
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, white, #fff0f6);
+            color: #999;
+            font-size: 14px;
+        }
+
+        .hearts {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* 데스크톱 대응 */
+        @media (min-width: 481px) {
+            .container {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>WEDDING INVITATION</h1>
+            <div class="names">
+                이강진 <span class="divider">❤</span> 임예리
+            </div>
+            <div class="date-info">
+                <p>두 사람이 사랑으로 하나 되는 날</p>
+                <p class="date">2025년 0월 0일 토요일 오후 0시</p>
+                <p>○○웨딩홀</p>
+            </div>
+        </div>
+
+        <!-- 인사말 -->
+        <div class="greeting">
+            <p>
+                서로가 마주보며 다져온 사랑을<br>
+                이제 함께 한 곳을 바라보며<br>
+                걸어갈 수 있는 큰 사랑으로 키우고자 합니다.
+            </p>
+            <p>
+                저희 두 사람이 사랑의 이름으로<br>
+                지켜나갈 수 있도록<br>
+                앞날을 축복해 주시면 감사하겠습니다.
+            </p>
+        </div>
+
+        <!-- 사진 갤러리 -->
+        <div class="gallery-section">
+            <div class="gallery-title">GALLERY</div>
+            <div class="gallery-container" id="gallery">
+                <div class="gallery-wrapper" id="galleryWrapper">
+                    <!-- 샘플 사진 슬롯 (실제 사진으로 교체하세요) -->
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">
+                            사진 1<br>
+                            <small>(이미지를 추가해주세요)</small>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">
+                            사진 2<br>
+                            <small>(이미지를 추가해주세요)</small>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">
+                            사진 3<br>
+                            <small>(이미지를 추가해주세요)</small>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-placeholder">
+                            사진 4<br>
+                            <small>(이미지를 추가해주세요)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-dots" id="galleryDots"></div>
+        </div>
+
+        <!-- 장소 정보 -->
+        <div class="location">
+            <h2>LOCATION</h2>
+            <div class="location-info">
+                <p><strong>○○웨딩홀</strong></p>
+                <p>서울특별시 ○○구 ○○동 123-45</p>
+                <p>Tel. 02-1234-5678</p>
+                <br>
+                <p><strong>오시는 길</strong></p>
+                <p>지하철: ○호선 ○○역 3번 출구 도보 5분</p>
+                <p>주차: 건물 지하 1~3층 (3시간 무료)</p>
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <div class="hearts">♥ ♥ ♥</div>
+            <p>이강진 & 임예리</p>
+        </div>
+    </div>
+
+    <!-- 음악 컨트롤 -->
+    <div class="music-control playing" id="musicControl">
+        <div class="music-icon">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- 오디오 -->
+    <audio id="bgMusic" loop>
+        <source src="1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 음악 재생 컨트롤
+        const music = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = false;
+
+        // 페이지 로드 시 자동 재생 시도
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.add('playing');
+            }).catch(() => {
+                // 자동 재생 실패 시 (브라우저 정책)
+                isPlaying = false;
+                musicControl.classList.remove('playing');
+                musicControl.classList.add('paused');
+            });
+        });
+
+        musicControl.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicControl.classList.remove('playing');
+                musicControl.classList.add('paused');
+            } else {
+                music.play();
+                musicControl.classList.add('playing');
+                musicControl.classList.remove('paused');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 갤러리 스와이프 기능
+        const gallery = document.getElementById('gallery');
+        const galleryWrapper = document.getElementById('galleryWrapper');
+        const galleryDots = document.getElementById('galleryDots');
+        const items = document.querySelectorAll('.gallery-item');
+
+        let currentIndex = 0;
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        // 도트 생성
+        items.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (index === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(index));
+            galleryDots.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateGallery() {
+            const offset = -currentIndex * 100;
+            galleryWrapper.style.transform = `translateX(${offset}%)`;
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = Math.max(0, Math.min(index, items.length - 1));
+            updateGallery();
+        }
+
+        function handleStart(e) {
+            isDragging = true;
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            galleryWrapper.style.transition = 'none';
+        }
+
+        function handleMove(e) {
+            if (!isDragging) return;
+
+            currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            const diff = currentX - startX;
+            const currentOffset = -currentIndex * gallery.offsetWidth;
+            galleryWrapper.style.transform = `translateX(${currentOffset + diff}px)`;
+        }
+
+        function handleEnd() {
+            if (!isDragging) return;
+
+            isDragging = false;
+            galleryWrapper.style.transition = 'transform 0.3s ease-out';
+
+            const diff = currentX - startX;
+            const threshold = gallery.offsetWidth * 0.2;
+
+            if (diff > threshold && currentIndex > 0) {
+                currentIndex--;
+            } else if (diff < -threshold && currentIndex < items.length - 1) {
+                currentIndex++;
+            }
+
+            updateGallery();
+        }
+
+        // 터치 이벤트
+        gallery.addEventListener('touchstart', handleStart, { passive: true });
+        gallery.addEventListener('touchmove', handleMove, { passive: true });
+        gallery.addEventListener('touchend', handleEnd);
+
+        // 마우스 이벤트 (데스크톱)
+        gallery.addEventListener('mousedown', handleStart);
+        gallery.addEventListener('mousemove', handleMove);
+        gallery.addEventListener('mouseup', handleEnd);
+        gallery.addEventListener('mouseleave', handleEnd);
+    </script>
+</body>
+</html>
